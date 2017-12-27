@@ -6,7 +6,7 @@ This library contains support Matlab code for [1].
 
 ### Prerequisites
 1. MatConvNet library: http://www.vlfeat.org/matconvnet/
-1. Tukey loss function (for regression): http://campar.in.tum.de/twiki/pub/Chair/DeepReg/deepreg.html
+1. Tukey's loss function (for regression): https://github.com/bazilas/matconvnet-deepReg
 
 This code has been tested on Ubuntu 14.04 and Matlab 2013b.
 
