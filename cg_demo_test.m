@@ -17,6 +17,9 @@ disp('Model loaded.')
 net = fc_cnn_deploy(net) ;
 net.mode = 'test';
 
+% Draw filters
+[hdl, F] = mj_drawCNNfiltersMosaic(net.params(net.getParamIndex('conv01_filter')).value);
+
 %% Load test data
 dirsamples = fullfile(dirdata, 'testsamples');
 matdata = fullfile(dirsamples, 'matimdbtum_gaid_N155-n-05_06-of25_60x60.mat');
@@ -35,14 +38,24 @@ end
 disp('Data ready.')
 
 % Show one sample
-figure(1), imagesc(samples.data(:,:,13,1)), colormap jet, axis image, title('Single OF channel'), colorbar
+figure(10), imagesc(samples.data(:,:,13,1)), colormap jet, axis image, title('Single OF channel'), colorbar
 
 %% Run network
-nTestSamples = 15; % Choose what you need
-fprintf('Testing network on %d samples. \n', nTestSamples);
+sampStep = 10;
+nTestSamples = 15*sampStep; % Choose what you need
+fprintf('Testing network on samples. \n');
+
+% Identification task
 softmaxLayerName = 'probs'; % Options: 'probs' for id; 'probsG' for gender; 'full02a' for age
-scoresSMtest = mj_classifyWithDAG(net, samples.data(:,:,:,1:nTestSamples), softmaxLayerName, 1);
+scoresSMtest = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), softmaxLayerName, 1);
 [bestScore, bestId] = max(scoresSMtest);
 
+% Gender task
+scoresSMtestG = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), 'probsG', 1);
+[bestScoreG, bestG] = max(scoresSMtest);
+
+% Age task
+estimAge = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), 'full02a', 1);
+
 %% See results
-figure(2), clf, bar(bestId), title('Label per sample'), xlabel 'Samples', ylabel 'Id', grid on
+figure(11), clf, bar(bestId), title('Label per sample'), xlabel 'Samples', ylabel 'Id', grid on
