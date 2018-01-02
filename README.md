@@ -11,6 +11,9 @@ If you find useful this code, please, cite [1] or [2].
 
 This code has been tested on Ubuntu 14.04 and Matlab 2013b.
 
+### Pretrained models
+Download from here: [ICIP'2017](https://www.dropbox.com/sh/wsywgfykmb6pdqw/AAA_5xdywUmBRuMNGLR1WA_oa?dl=0)
+
 ### Quick start
 Let's assume that you have placed _CNNGait_ library in folder `<cgdir>`. 
 Start Matlab and type the following commands:
