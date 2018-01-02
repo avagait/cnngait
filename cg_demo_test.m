@@ -7,7 +7,8 @@
 %% Load model
 dirdata = fullfile(CNNGAIT_PATH, 'data');
 dirmodels = fullfile(dirdata, 'models');
-modelname = 'dagV00_of25_id+gender0100+age0100_est_adp_60x60_N150_nf064/net-final.mat'; % *** SET ME ***
+%modelname = 'dagV02_of25_id+age0200_est_adp_60x60_N155_nf064_dr10/net-final.mat';            % *** SET ME ***
+modelname = 'dagV02_of25_id+gender0100+age0100_est_adp_60x60_N155_nf064_dr10/net-final.mat';  % *** SET ME *** 
 matmodel = fullfile(dirmodels, modelname);
 
 netstr = load(matmodel); net = netstr.net; clear netstr
@@ -26,6 +27,10 @@ matdata = fullfile(dirsamples, 'matimdbtum_gaid_N155-n-05_06-of25_60x60.mat');
 disp('Loading test data...')
 samplestr = load(matdata); samples = samplestr.imdbtest.images; clear samplestr
 disp('Test samples loaded.')
+
+% GT labels
+labelsId_ = samples.labels; 
+[foo1, foo2, labelsId] = unique(labelsId_);
 
 if mj_isCompressedData(samples.data)
    samples.data = mj_decompressOF(samples.data, 1.0/samples.compressFactor);
@@ -50,12 +55,19 @@ softmaxLayerName = 'probs'; % Options: 'probs' for id; 'probsG' for gender; 'ful
 scoresSMtest = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), softmaxLayerName, 1);
 [bestScore, bestId] = max(scoresSMtest);
 
+accTestId = sum(bestId == labelsId(1:sampStep:nTestSamples)')/length(bestId);
+fprintf('+ Accuracy of identification task: %.1f%%\n', accTestId*100);
+
 % Gender task
-scoresSMtestG = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), 'probsG', 1);
-[bestScoreG, bestG] = max(scoresSMtest);
+if ~isnan( net.getVarIndex('probsG') )
+   scoresSMtestG = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), 'probsG', 1);
+   [bestScoreG, bestG] = max(scoresSMtestG);
+end
 
 % Age task
-estimAge = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), 'full02a', 1);
+if ~isnan( net.getVarIndex('full02a') )
+   estimAge = mj_classifyWithDAG(net, samples.data(:,:,:,1:sampStep:nTestSamples), 'full02a', 1);
+end
 
 %% See results
 figure(11), clf, bar(bestId), title('Label per sample'), xlabel 'Samples', ylabel 'Id', grid on
