@@ -14,6 +14,9 @@ This code has been tested on Ubuntu 14.04 and Matlab 2013b.
 ### Pretrained models
 Download from here: [ICIP'2017](https://www.dropbox.com/sh/wsywgfykmb6pdqw/AAA_5xdywUmBRuMNGLR1WA_oa?dl=0)
 
+### Sample test data
+Some test sequences of the test subject partition from TUM-GAID, normal scenario: [download](https://www.dropbox.com/s/2zaf2xafqqz0gzp/matimdbtum_gaid_N155-n-05_06-of25_60x60_lite.mat?dl=0)
+
 ### Quick start
 Let's assume that you have placed _CNNGait_ library in folder `<cgdir>`. 
 Start Matlab and type the following commands:
