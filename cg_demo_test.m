@@ -9,6 +9,7 @@ dirdata = fullfile(CNNGAIT_PATH, 'data');
 dirmodels = fullfile(dirdata, 'models');
 %modelname = 'dagV02_of25_id+age0200_est_adp_60x60_N155_nf064_dr10/net-final.mat';            % *** SET ME ***
 modelname = 'dagV02_of25_id+gender0100+age0100_est_adp_60x60_N155_nf064_dr10/net-final.mat';  % *** SET ME *** 
+%modelname = 'dagV02_of25_id+verif0100_est_adp_60x60_N155_nf064_dr10/net-final.mat';  % *** SET ME ***
 matmodel = fullfile(dirmodels, modelname);
 
 netstr = load(matmodel); net = netstr.net; clear netstr
@@ -23,9 +24,9 @@ net.mode = 'test';
 
 %% Load test data
 dirsamples = fullfile(dirdata, 'testsamples');
-matdata = fullfile(dirsamples, 'matimdbtum_gaid_N155-n-05_06-of25_60x60.mat');
+matdata = fullfile(dirsamples, 'matimdbtum_gaid_N155-n-05_06-of25_60x60_lite.mat');
 disp('Loading test data...')
-samplestr = load(matdata); samples = samplestr.imdbtest.images; clear samplestr
+samplestr = load(matdata); samples = samplestr.samplesLite; clear samplestr
 disp('Test samples loaded.')
 
 % GT labels
