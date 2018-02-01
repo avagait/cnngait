@@ -9,7 +9,7 @@ If you find useful this code, please, cite [1] or [2].
 1. MatConvNet library: http://www.vlfeat.org/matconvnet/
 1. Tukey's loss function (for regression): https://github.com/bazilas/matconvnet-deepReg
 
-This code has been tested on Ubuntu 14.04 and Matlab 2013b.
+This code has been tested on Ubuntu 14.04 with Matlab 2013b and Ubuntu 16.04.2 with Matlab 2016b.
 
 ### Pretrained models
 Download from here: [ICIP'2017](https://www.dropbox.com/sh/wsywgfykmb6pdqw/AAA_5xdywUmBRuMNGLR1WA_oa?dl=0)
